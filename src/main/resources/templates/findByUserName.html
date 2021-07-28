@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="css/table.css" />
+<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.5.1.min.js"></script>
+<script type="text/javascript" src="js/tableop.js"></script>
+<script src="js/jquery.cookie.js"></script>
+
+<title>10JQKA</title>
+<style>
+*{margin:0;padding:0;}
+</style>
+</head>
+<body>  
+人员信息
+<div class="box">
+<button id="findById" type="submit">查看该用户名</button>
+<div class="input-box">
+查询用户名：<input id="name" type="text" placeholder="请输入关键字">
+</div>
+<table class="imagetable" id="tab">
+</table> 
+</div>
+    <script>
+    var currentCookie=document.cookie.split(";")[0];
+    jQuery(document).ready(function(){
+    $("#findById").on("click",function(){
+        var name = $("#name").val();
+        $.ajax({
+            url:"http://localhost:8080/people/?name=".concat(name),
+            type:"GET",
+            dataType:"json",
+            
+            
+            headers:{
+                'Content-Type':'application/json',
+                'Authorization':'Bearer'+currentCookie
+            },
+            success:function(CommonResult){
+               // if(CommonResult['length']>1){
+                 //   tablea(CommonResult)
+                //}else{
+                    table(CommonResult)
+                //}
+            },error:function(){
+                alert("数据加载错误！");
+            }
+
+        })
+    });
+    
+    function table(CommonResult){
+            var msg = "";
+                msg += "<tr>"+"<th>"+"ID"+"</th>"+"<th>"+"name"+"</th>"+"<th>"+"email"+"</th>"+"<th>"+"age"+"</th>"+"<th>"+"sex"+"</th>"+"<th>"+"birthday"+"</th>"+"</tr>";
+                var list=CommonResult['data'];
+                for (var people in list) {//循环json对象，拼接tr,td的html
+                msg += "<tr>";
+                msg += "<td>" + list[people].id + "</td>";
+                msg += "<td>" + list[people].name + "</td>";
+                msg += "<td>" + list[people].email+ "</td>";
+                msg += "<td>" + list[people].age + "</td>";
+                msg += "<td>" + list[people].sex + "</td>";
+                msg += "<td>" + list[people].birthday + "</td>";
+                msg += "</tr>";
+                }
+                $("#tab").html(msg);
+                //通过jquery方式获取table，并把tr,td的html输出到table中
+        }
+        
+    
+
+});
+</script>
+</body>
+</html>

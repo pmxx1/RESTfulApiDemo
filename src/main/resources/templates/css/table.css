@@ -1,0 +1,15 @@
+ table.imagetable {
+ font-family: verdana,arial,sans-serif;
+ font-size:16px;
+ color:#004080;
+ border:1px solid #ff1a1a; 
+ border-collapse: collapse;
+}
+table.imagetable tr th {
+ padding: 8px;
+ border:1px solid #ff1a1a; 
+}
+table.imagetable tr td {
+ padding: 8px;
+ border:1px solid #ff1a1a; 
+}
