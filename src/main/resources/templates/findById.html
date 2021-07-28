@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="css/table.css" />
+<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.5.1.min.js"></script>
+<script type="text/javascript" src="js/tableop.js"></script>
+<script src="js/jquery.cookie.js"></script>
+
+<title>10JQKA</title>
+<style>
+*{margin:0;padding:0;}
+</style>
+</head>
+<body>  
+人员信息
+<div class="box">
+<button id="findById" type="submit">查看该id</button>
+<div class="input-box">
+id：<input id="peopleid" type="text" placeholder="请输入id">
+</div>
+<table class="imagetable" id="tab">
+</table> 
+</div>
+    <script>
+    var currentCookie=document.cookie.split(";")[0];
+    jQuery(document).ready(function(){
+    $("#findById").on("click",function(){
+        var peopleid = $("#peopleid").val();
+        $.ajax({
+            url:"http://localhost:8080/people/".concat(peopleid),
+            type:"GET",
+            dataType:"json",
+            
+            headers:{
+                'Content-Type':'application/json',
+                'Authorization':'Bearer'+currentCookie
+            },
+            success:function(CommonResult){
+                table(CommonResult)
+            },error:function(){
+                alert("数据加载错误！");
+            }
+
+        })
+    });
+    function table(CommonResult){
+        var msg = "";
+                msg += "<tr>"+"<th>"+"ID"+"</th>"+"<th>"+"name"+"</th>"+"<th>"+"email"+"</th>"+"<th>"+"age"+"</th>"+"<th>"+"sex"+"</th>"+"<th>"+"birthday"+"</th>"+"</tr>";
+                msg += "<tr>";
+                msg += "<td>" + CommonResult['data']['id'] + "</td>";
+                msg += "<td>" + CommonResult['data']['name'] + "</td>";
+                msg += "<td>" + CommonResult['data']['email']+ "</td>";
+                msg += "<td>" + CommonResult['data']['age'] + "</td>";
+                msg += "<td>" + CommonResult['data']['sex'] + "</td>";
+                msg += "<td>" + CommonResult['data']['birthday'] + "</td>";
+                msg += "</tr>";
+                
+                $("#tab").html(msg);
+                //通过jquery方式获取table，并把tr,td的html输出到table中
+    }
+
+});
+</script>
+</body>
+</html>

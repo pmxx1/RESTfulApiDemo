@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="css/table.css" />
+<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.5.1.min.js"></script>
+<script type="text/javascript" src="js/tableop.js"></script>
+<script src="js/jquery.cookie.js"></script>
+
+<title>10JQKA</title>
+<style>
+*{margin:0;padding:0;}
+</style>
+</head>
+<body>  
+人员信息
+<div class="box">
+<button id="findById" type="submit">查看该id</button>
+<input id="id" type="text" placeholder="请输入要修改的id">
+<form class="input-box">
+name：<input id="name" type="text" placeholder="请输入姓名">
+<br>
+email：<input id="email" type="email" placeholder="请输入电子邮箱">
+<br>
+age：<input id="age" type="text" placeholder="请输入年龄">
+<br>
+sex:<select id="sex">
+    <option value ="男">男</option>
+    <option value ="女">女</option>
+</select>
+<br>
+birthday：<input id="birthday" type="date" placeholder="请输入birthday">
+
+</form>
+<table class="imagetable" id="tab">
+</table> 
+</div>
+    <script>
+    var currentCookie=document.cookie.split(";")[0];
+    
+    jQuery(document).ready(function(){
+    
+    $("#findById").on("click",function(){
+        var name = $("#name").val();
+        var id=$("#id").val();
+    var email = $("#email").val();
+    var sex = $("#sex").val();
+    var age = $("#age").val();
+    var birthday = $("#birthday").val();
+    var peopleInfo={
+        "id":id,
+        "name":name,
+        "email":email,
+        "age":age,
+        "sex":sex,
+        "birthday":birthday
+    };
+    var xx=JSON.stringify(peopleInfo);
+        $.ajax({
+            url:"http://localhost:8080/people",
+            type:"POST",
+            dataType:"json",
+            data:JSON.stringify(peopleInfo),
+            headers:{
+                'Content-Type':'application/json',
+                'Authorization':'Bearer'+currentCookie
+            },
+            success:function(CommonResult){
+                alert(CommonResult['message']+xx);
+            },error:function(){
+                alert("数据加载错误！");
+            }
+
+        })
+    });
+    
+
+});
+</script>
+</body>
+</html>
