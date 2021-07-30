@@ -7,7 +7,7 @@
 <script type="text/javascript" src="js/tableop.js"></script>
 <script src="js/jquery.cookie.js"></script>
 
-<title>10JQKA</title>
+<title>删除该id</title>
 <style>
 *{margin:0;padding:0;}
 </style>
@@ -22,6 +22,12 @@ id：<input id="peopleid" type="text" placeholder="请输入id">
 </table> 
     <script>
     var currentCookie=document.cookie.split(";")[0];
+    $(function() {
+    axios({
+            if (currentCookie= null) {
+            window.location.href='login.html'
+        } })})
+       
     jQuery(document).ready(function(){
         $("#delete").on("click",function(){
             var peopleid=$('#peopleid').val();

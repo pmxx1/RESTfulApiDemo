@@ -37,6 +37,8 @@ public class AdminService {
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private AdminCacheService adminCacheService;
     @Value("${jwt.tokenHead}")
     private String tokenHead;
     @Autowired
@@ -44,8 +46,7 @@ public class AdminService {
     @Autowired
     private AdminPermissionRelationDao adminPermissionRelationDao;
 
-    public AdminService() {
-    }
+
 
     /**
      * create by: yinwei
@@ -55,7 +56,17 @@ public class AdminService {
      * @return Admin
      */
     public Admin getAdminByUsername(String username) {
-        return adminDao.getAdminByUsername(username);
+        Admin admin =adminCacheService.getAdmin(username);
+        if(admin!=null){
+            return admin;
+        }
+        Admin admin1=adminDao.getAdminByUsername(username);
+        if(admin1!=null){
+            admin=admin1;
+            adminCacheService.setAdmin(admin);
+            return admin;
+        }
+        return null;
     }
     /**
      * create by: yinwei
@@ -114,5 +125,25 @@ public class AdminService {
 
     public List<Permission> getPermissionList(Long adminId) {
         return adminPermissionRelationDao.getPermissionList(adminId);
+    }
+    /**
+     * create by: yinwei
+     * description: TODO 通过id获取用户
+     * create time: 2021/7/30 13:43
+     * @Param adminId
+     * @return admin
+     */
+    public Admin getItem(Long adminId) {
+        return adminDao.findById(adminId);
+    }
+    /**
+     * create by: yinwei
+     * description: TODO 刷新token
+     * create time: 2021/7/30 13:57
+     * @Param token
+     * @return token
+     */
+    public String refreshToken(String token) {
+        return jwtTokenUtil.refreshToken(token);
     }
 }

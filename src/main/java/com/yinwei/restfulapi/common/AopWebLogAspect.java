@@ -56,10 +56,6 @@ public class AopWebLogAspect {
 
         String params = null;
         if ("POST".equals(method) || "PUT".equals(method)) {
-            //joinPoint 就是targer
-            //获取target方法中的所有参数
-            //如果target = sendCode 那么args = params
-            //如果target = register 那么args = userParam
             Object[] args = joinPoint.getArgs();
             if (args.length > 0){
                 for(int i=0;i<args.length;i++){

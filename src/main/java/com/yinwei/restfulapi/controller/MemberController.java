@@ -1,7 +1,6 @@
 package com.yinwei.restfulapi.controller;
 
 import com.yinwei.restfulapi.common.CommonResult;
-import com.yinwei.restfulapi.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;

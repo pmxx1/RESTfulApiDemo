@@ -39,11 +39,14 @@ spring:
     timeout: 3000ms # 连接超时时间（毫秒）
 # 自定义redis key
 redis:
+  database: 0
   key:
+    admin: 'people:admin'
     prefix:
       authCode: "portal:authCode:"
-    expire:
-      authCode: 120 # 验证码超期时间
+  expire:
+    authCode: 120 # 验证码超期时间
+    common: 86400
 jwt:
   tokenHeader: Authorization #JWT存储的请求头
   secret: mySecret #JWT加解密使用的密钥

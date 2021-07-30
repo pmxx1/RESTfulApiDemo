@@ -52,10 +52,10 @@ public class AdminController {
     }
     /**
      * create by: yinwei
-     * description: TODO
+     * description: TODO 用户登陆
      * create time: 2021/7/23 11:29
       * @Param: null
-     * @return 
+     * @return CommonResult
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
@@ -67,6 +67,25 @@ public class AdminController {
         Map<String, String> tokenMap = new HashMap<>();
         tokenMap.put("token", token);
         tokenMap.put("tokenHead", tokenHead);
+        return CommonResult.success(tokenMap);
+    }
+    /**
+     * create by: yinwei
+     * description: TODO 刷新token
+     * create time: 2021/7/30 13:48
+     * @Param
+     * @return
+     */
+    @RequestMapping(value="/refreshToken",method=RequestMethod.GET)
+    public CommonResult refreshToken(HttpServletRequest request){
+        String token=request.getHeader(tokenHeader);
+        String refreshToken=adminService.refreshToken(token);
+        if(refreshToken==null){
+            return CommonResult.failed("token已过期");
+        }
+        Map<String,String> tokenMap=new HashMap<>();
+        tokenMap.put("token",refreshToken);
+        tokenMap.put("tokenHead",tokenHead);
         return CommonResult.success(tokenMap);
     }
 }
